@@ -1,0 +1,23 @@
+name: Buddle sdmc
+on:
+  watch:
+    types: [started]
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    if: github.event.repository.owner.id == github.event.sender.id
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+    - name: Grant execute permission
+      run: chmod +x start.sh
+    - name: Prepare sdmc
+      run: ./start.sh
+    - name: Upload buddle
+      uses: actions/upload-artifact@v3
+      with:
+        name: sdmc
+        path: ./sdmc
