@@ -12,7 +12,13 @@ ENABLE_EXOSPHERE=$(cat config.env | grep -w "ENABLE_EXOSPHERE" | head -n 1 | cut
 BLANK_PRODINFO_EMU=$(cat config.env | grep -w "BLANK_PRODINFO_EMU" | head -n 1 | cut -d "=" -f 2)
 BLANK_PRODINFO_SYS=$(cat config.env | grep -w "BLANK_PRODINFO_SYS" | head -n 1 | cut -d "=" -f 2)
 ENABLE_LOCKPICK_RCM=$(cat config.env | grep -w "ENABLE_LOCKPICK_RCM" | head -n 1 | cut -d "=" -f 2)
-LOCKPICK_RCM_FILE=$(cat config.env | grep -w "LOCKPICK_RCM_FILE" | head -n 1 | cut -d "=" -f 2)
+LOCKPICK_RCM_RELEASE=$(cat config.env | grep -w "LOCKPICK_RCM_RELEASE" | head -n 1 | cut -d "=" -f 2)
+ENABLE_TEGRA_EXPLORER=$(cat config.env | grep -w "ENABLE_TEGRA_EXPLORER" | head -n 1 | cut -d "=" -f 2)
+TEGRA_EXPLORER_RELEASE=$(cat config.env | grep -w "TEGRA_EXPLORER_RELEASE" | head -n 1 | cut -d "=" -f 2)
+ENABLE_GOLDLEAF=$(cat config.env | grep -w "ENABLE_GOLDLEAF" | head -n 1 | cut -d "=" -f 2)
+GOLDLEAF_RELEASE=$(cat config.env | grep -w "GOLDLEAF_RELEASE" | head -n 1 | cut -d "=" -f 2)
+ENABLE_JKSV=$(cat config.env | grep -w "ENABLE_JKSV" | head -n 1 | cut -d "=" -f 2)
+JKSV_RELEASE=$(cat config.env | grep -w "JKSV_RELEASE" | head -n 1 | cut -d "=" -f 2)
 
 echo "Preparing..."
 rm -r ./sdmc/
@@ -86,11 +92,49 @@ fi
 
 if [ $ENABLE_LOCKPICK_RCM = "true" ]; then
     echo "Downloading Lockpick_RCM..."
-    curl -sL $LOCKPICK_RCM_FILE -o ./sdmc/bootloader/payloads/Lockpick_RCM.bin
+    curl -sL $LOCKPICK_RCM_RELEASE \
+      | jq '.assets' | jq '.[0].browser_download_url' \
+      | xargs -I {} curl -sL {} -o ./sdmc/bootloader/payloads/Lockpick_RCM.bin
     if [ $? -ne 0 ]; then
         echo "Download failed."
     else
         echo "Payload imported: Lockpick_RCM"
+    fi
+fi
+
+if [ $ENABLE_TEGRA_EXPLORER = "true" ]; then
+    echo "Downloading TegraExplorer..."
+    curl -sL $TEGRA_EXPLORER_RELEASE \
+      | jq '.assets' | jq '.[0].browser_download_url' \
+      | xargs -I {} curl -sL {} -o ./sdmc/bootloader/payloads/TegraExplorer.bin
+    if [ $? -ne 0 ]; then
+        echo "Download failed."
+    else
+        echo "Payload imported: TegraExplorer"
+    fi
+fi
+
+if [ $ENABLE_GOLDLEAF = "true" ]; then
+    echo "Downloading Goldleaf..."
+    curl -sL $GOLDLEAF_RELEASE \
+      | jq '.assets' | jq '.[0].browser_download_url' \
+      | xargs -I {} curl -sL {} -o ./sdmc/switch/Goldleaf.nro
+    if [ $? -ne 0 ]; then
+        echo "Download failed."
+    else
+        echo "Application imported: Goldleaf"
+    fi
+fi
+
+if [ $ENABLE_JKSV = "true" ]; then
+    echo "Downloading JKSV..."
+    curl -sL $JKSV_RELEASE \
+      | jq '.assets' | jq '.[0].browser_download_url' \
+      | xargs -I {} curl -sL {} -o ./sdmc/switch/JKSV.nro
+    if [ $? -ne 0 ]; then
+        echo "Download failed."
+    else
+        echo "Application imported: JKSV"
     fi
 fi
 

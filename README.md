@@ -31,13 +31,24 @@
 | OFW_SYS_BOOT | Add `Stock sysMMC` boot entry in `sdmc:/bootloader/hekate_ipl.ini` |
 | DNS_MITM_EMU | Enable DNS.mitm for `emuMMC` in `sdmc:/atmosphere/hosts/emummc.txt` |
 | DNS_MITM_SYS | Enable DNS.mitm for `sysMMC` in `sdmc:/atmosphere/hosts/sysmmc.txt` |
-| ENABLE_EXOSPHERE | Enable Exosphère in `sdmc:/exosphere.ini` |
+| ENABLE_EXOSPHERE | Use Exosphère config template in `sdmc:/exosphere.ini` |
 | BLANK_PRODINFO_EMU | Blank prodinfo for `emuMMC` in `sdmc:/exosphere.ini` |
 | BLANK_PRODINFO_SYS | Blank prodinfo for `sysMMC` in `sdmc:/exosphere.ini` |
 
-### [Lockpick_RCM](https://vps.suchmeme.nl/git/mudkip/Lockpick_RCM) 
-- Place it in `sdmc:/bootloader/payloads`
+### Payloads
+- Place payloads in `sdmc:/bootloader/payloads`
+- [x] [Lockpick_RCM](https://github.com/Decscots/Lockpick_RCM)
+- [x] [TegraExplorer](https://github.com/suchmememanyskill/TegraExplorer)
 
 | Config option | Description |
 | - | - |
-| LOCKPICK_RCM_FILE | Custom file of Lockpick_RCM |
+| {PAYLOAD}_RELEASE | Custom release of payload |
+
+### Homebrew Applications
+- Place applications in `sdmc:/switch`
+- [x] [Goldleaf](https://github.com/XorTroll/Goldleaf)
+- [x] [JKSV](https://github.com/J-D-K/JKSV)
+
+| Config option | Description |
+| - | - |
+| {APPLICATION}_RELEASE | Custom release of application |
