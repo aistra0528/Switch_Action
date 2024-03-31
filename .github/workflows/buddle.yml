@@ -11,13 +11,13 @@ jobs:
     if: github.event.repository.owner.id == github.event.sender.id
     steps:
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
     - name: Grant execute permission
       run: chmod +x start.sh
     - name: Prepare sdmc
       run: ./start.sh
     - name: Upload buddle
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: sdmc
         path: ./sdmc

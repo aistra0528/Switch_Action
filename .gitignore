@@ -1,4 +1,6 @@
 custom/*
 !custom/.gitkeep
+custom.old/*
 sdmc/*
 !sdmc/.gitkeep
+sdmc.old/*

@@ -23,7 +23,9 @@ JKSV_RELEASE=$(cat config.env | grep -w "JKSV_RELEASE" | head -n 1 | cut -d "=" 
 echo "Preparing..."
 rm -r ./sdmc/
 
-echo "Downloading hekate & Nyx..."
+curl -sL $HEKATE_RELEASE \
+  | jq '.tag_name' \
+  | xargs -I {} echo "Downloading hekate & Nyx: {}"
 curl -sL $HEKATE_RELEASE \
   | jq '.assets' | jq '.[0].browser_download_url' \
   | xargs -I {} curl -sL {} -o hekate.zip
@@ -38,7 +40,9 @@ else
 fi
 
 if [ $ENABLE_ATMOSPHERE = "true" ]; then
-    echo "Downloading Atmosphère..."
+    curl -sL $ATMOSPHERE_RELEASE \
+      | jq '.tag_name' \
+      | xargs -I {} echo "Downloading Atmosphère: {}"
     curl -sL $ATMOSPHERE_RELEASE \
       | jq '.assets' | jq '.[0].browser_download_url' \
       | xargs -I {} curl -sL {} -o atmosphere.zip
@@ -91,7 +95,9 @@ if [ $ENABLE_ATMOSPHERE = "true" ]; then
 fi
 
 if [ $ENABLE_LOCKPICK_RCM = "true" ]; then
-    echo "Downloading Lockpick_RCM..."
+    curl -sL $LOCKPICK_RCM_RELEASE \
+      | jq '.tag_name' \
+      | xargs -I {} echo "Downloading Lockpick_RCM: {}"
     curl -sL $LOCKPICK_RCM_RELEASE \
       | jq '.assets' | jq '.[0].browser_download_url' \
       | xargs -I {} curl -sL {} -o ./sdmc/bootloader/payloads/Lockpick_RCM.bin
@@ -103,7 +109,9 @@ if [ $ENABLE_LOCKPICK_RCM = "true" ]; then
 fi
 
 if [ $ENABLE_TEGRA_EXPLORER = "true" ]; then
-    echo "Downloading TegraExplorer..."
+    curl -sL $TEGRA_EXPLORER_RELEASE \
+      | jq '.tag_name' \
+      | xargs -I {} echo "Downloading TegraExplorer: {}"
     curl -sL $TEGRA_EXPLORER_RELEASE \
       | jq '.assets' | jq '.[0].browser_download_url' \
       | xargs -I {} curl -sL {} -o ./sdmc/bootloader/payloads/TegraExplorer.bin
@@ -115,7 +123,9 @@ if [ $ENABLE_TEGRA_EXPLORER = "true" ]; then
 fi
 
 if [ $ENABLE_GOLDLEAF = "true" ]; then
-    echo "Downloading Goldleaf..."
+    curl -sL $GOLDLEAF_RELEASE \
+      | jq '.tag_name' \
+      | xargs -I {} echo "Downloading Goldleaf: {}"
     curl -sL $GOLDLEAF_RELEASE \
       | jq '.assets' | jq '.[0].browser_download_url' \
       | xargs -I {} curl -sL {} -o ./sdmc/switch/Goldleaf.nro
@@ -127,7 +137,9 @@ if [ $ENABLE_GOLDLEAF = "true" ]; then
 fi
 
 if [ $ENABLE_JKSV = "true" ]; then
-    echo "Downloading JKSV..."
+    curl -sL $JKSV_RELEASE \
+      | jq '.tag_name' \
+      | xargs -I {} echo "Downloading JKSV: {}"
     curl -sL $JKSV_RELEASE \
       | jq '.assets' | jq '.[0].browser_download_url' \
       | xargs -I {} curl -sL {} -o ./sdmc/switch/JKSV.nro
