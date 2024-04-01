@@ -48,6 +48,7 @@
 - Place applications in `sdmc:/switch`
 - [x] [Goldleaf](https://github.com/XorTroll/Goldleaf)
 - [x] [JKSV](https://github.com/J-D-K/JKSV)
+- [ ] [wiliwili](https://github.com/xfangfang/wiliwili)
 
 | Config option | Description |
 | - | - |

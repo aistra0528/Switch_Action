@@ -19,6 +19,8 @@ ENABLE_GOLDLEAF=$(cat config.env | grep -w "ENABLE_GOLDLEAF" | head -n 1 | cut -
 GOLDLEAF_RELEASE=$(cat config.env | grep -w "GOLDLEAF_RELEASE" | head -n 1 | cut -d "=" -f 2)
 ENABLE_JKSV=$(cat config.env | grep -w "ENABLE_JKSV" | head -n 1 | cut -d "=" -f 2)
 JKSV_RELEASE=$(cat config.env | grep -w "JKSV_RELEASE" | head -n 1 | cut -d "=" -f 2)
+ENABLE_WILIWILI=$(cat config.env | grep -w "ENABLE_WILIWILI" | head -n 1 | cut -d "=" -f 2)
+WILIWILI_RELEASE=$(cat config.env | grep -w "WILIWILI_RELEASE" | head -n 1 | cut -d "=" -f 2)
 
 echo "Preparing..."
 rm -r ./sdmc/
@@ -147,6 +149,23 @@ if [ $ENABLE_JKSV = "true" ]; then
         echo "Download failed."
     else
         echo "Application imported: JKSV"
+    fi
+fi
+
+if [ $ENABLE_WILIWILI = "true" ]; then
+    curl -sL $WILIWILI_RELEASE \
+      | jq '.tag_name' \
+      | xargs -I {} echo "Downloading wiliwili: {}"
+    curl -sL $WILIWILI_RELEASE \
+      | jq '.assets' | jq '.[7].browser_download_url' \
+      | xargs -I {} curl -sL {} -o wiliwili.zip
+    if [ $? -ne 0 ]; then
+        echo "Download failed."
+    else
+        echo "Unzipping files..."
+        unzip -uqj wiliwili.zip "wiliwili/wiliwili.nro" -d ./sdmc/switch/
+        rm wiliwili.zip
+        echo "Application imported: wiliwili"
     fi
 fi
 
