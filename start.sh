@@ -157,7 +157,7 @@ if [ $ENABLE_WILIWILI = "true" ]; then
       | jq '.tag_name' \
       | xargs -I {} echo "Downloading wiliwili: {}"
     curl -sL $WILIWILI_RELEASE \
-      | jq '.assets' | jq '.[7].browser_download_url' \
+      | jq '.assets' | jq '.[8].browser_download_url' \
       | xargs -I {} curl -sL {} -o wiliwili.zip
     if [ $? -ne 0 ]; then
         echo "Download failed."
