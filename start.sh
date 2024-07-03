@@ -11,6 +11,9 @@ DNS_MITM_SYS=$(cat config.env | grep -w "DNS_MITM_SYS" | head -n 1 | cut -d "=" 
 ENABLE_EXOSPHERE=$(cat config.env | grep -w "ENABLE_EXOSPHERE" | head -n 1 | cut -d "=" -f 2)
 BLANK_PRODINFO_EMU=$(cat config.env | grep -w "BLANK_PRODINFO_EMU" | head -n 1 | cut -d "=" -f 2)
 BLANK_PRODINFO_SYS=$(cat config.env | grep -w "BLANK_PRODINFO_SYS" | head -n 1 | cut -d "=" -f 2)
+ENABLE_TESLA=$(cat config.env | grep -w "ENABLE_TESLA" | head -n 1 | cut -d "=" -f 2)
+TESLA_LOADER_RELEASE=$(cat config.env | grep -w "TESLA_LOADER_RELEASE" | head -n 1 | cut -d "=" -f 2)
+TESLA_MENU_RELEASE=$(cat config.env | grep -w "TESLA_MENU_RELEASE" | head -n 1 | cut -d "=" -f 2)
 ENABLE_LOCKPICK_RCM=$(cat config.env | grep -w "ENABLE_LOCKPICK_RCM" | head -n 1 | cut -d "=" -f 2)
 LOCKPICK_RCM_RELEASE=$(cat config.env | grep -w "LOCKPICK_RCM_RELEASE" | head -n 1 | cut -d "=" -f 2)
 ENABLE_TEGRA_EXPLORER=$(cat config.env | grep -w "ENABLE_TEGRA_EXPLORER" | head -n 1 | cut -d "=" -f 2)
@@ -21,6 +24,12 @@ ENABLE_JKSV=$(cat config.env | grep -w "ENABLE_JKSV" | head -n 1 | cut -d "=" -f
 JKSV_RELEASE=$(cat config.env | grep -w "JKSV_RELEASE" | head -n 1 | cut -d "=" -f 2)
 ENABLE_WILIWILI=$(cat config.env | grep -w "ENABLE_WILIWILI" | head -n 1 | cut -d "=" -f 2)
 WILIWILI_RELEASE=$(cat config.env | grep -w "WILIWILI_RELEASE" | head -n 1 | cut -d "=" -f 2)
+ENABLE_STATUS_MONITOR=$(cat config.env | grep -w "ENABLE_STATUS_MONITOR" | head -n 1 | cut -d "=" -f 2)
+STATUS_MONITOR_RELEASE=$(cat config.env | grep -w "STATUS_MONITOR_RELEASE" | head -n 1 | cut -d "=" -f 2)
+ENABLE_SYS_CLK=$(cat config.env | grep -w "ENABLE_SYS_CLK" | head -n 1 | cut -d "=" -f 2)
+SYS_CLK_RELEASE=$(cat config.env | grep -w "SYS_CLK_RELEASE" | head -n 1 | cut -d "=" -f 2)
+ENABLE_EMUIIBO=$(cat config.env | grep -w "ENABLE_EMUIIBO" | head -n 1 | cut -d "=" -f 2)
+EMUIIBO_RELEASE=$(cat config.env | grep -w "EMUIIBO_RELEASE" | head -n 1 | cut -d "=" -f 2)
 
 echo "Preparing..."
 rm -r ./sdmc/
@@ -96,6 +105,37 @@ if [ $ENABLE_ATMOSPHERE = "true" ]; then
     fi
 fi
 
+if [ $ENABLE_TESLA = "true" ]; then
+    curl -sL $TESLA_LOADER_RELEASE \
+      | jq '.tag_name' \
+      | xargs -I {} echo "Downloading nx-ovlloader: {}"
+    curl -sL $TESLA_LOADER_RELEASE \
+      | jq '.assets' | jq '.[0].browser_download_url' \
+      | xargs -I {} curl -sL {} -o nx-ovlloader.zip
+    if [ $? -ne 0 ]; then
+        echo "Download failed."
+    else
+        echo "Unzipping files..."
+        unzip -uq nx-ovlloader.zip -d ./sdmc/
+        rm nx-ovlloader.zip
+        echo "Imported: nx-ovlloader"
+    fi
+    curl -sL $TESLA_MENU_RELEASE \
+      | jq '.tag_name' \
+      | xargs -I {} echo "Downloading Tesla-Menu: {}"
+    curl -sL $TESLA_MENU_RELEASE \
+      | jq '.assets' | jq '.[0].browser_download_url' \
+      | xargs -I {} curl -sL {} -o ovlmenu.zip
+    if [ $? -ne 0 ]; then
+        echo "Download failed."
+    else
+        echo "Unzipping files..."
+        unzip -uq ovlmenu.zip -d ./sdmc/
+        rm ovlmenu.zip
+        echo "Overlay Imported: Tesla-Menu"
+    fi
+fi
+
 if [ $ENABLE_LOCKPICK_RCM = "true" ]; then
     curl -sL $LOCKPICK_RCM_RELEASE \
       | jq '.tag_name' \
@@ -166,6 +206,59 @@ if [ $ENABLE_WILIWILI = "true" ]; then
         unzip -uqj wiliwili.zip "wiliwili/wiliwili.nro" -d ./sdmc/switch/
         rm wiliwili.zip
         echo "Application imported: wiliwili"
+    fi
+fi
+
+if [ $ENABLE_STATUS_MONITOR = "true" ]; then
+    curl -sL $STATUS_MONITOR_RELEASE \
+      | jq '.tag_name' \
+      | xargs -I {} echo "Downloading Status Monitor Overlay: {}"
+    curl -sL $STATUS_MONITOR_RELEASE \
+      | jq '.assets' | jq '.[0].browser_download_url' \
+      | xargs -I {} curl -sL {} -o Status-Monitor-Overlay.zip
+    if [ $? -ne 0 ]; then
+        echo "Download failed."
+    else
+        echo "Unzipping files..."
+        unzip -uq Status-Monitor-Overlay.zip -d ./sdmc/
+        rm Status-Monitor-Overlay.zip
+        echo "Overlay Imported: Status Monitor Overlay"
+    fi
+fi
+
+if [ $ENABLE_SYS_CLK = "true" ]; then
+    curl -sL $SYS_CLK_RELEASE \
+      | jq '.tag_name' \
+      | xargs -I {} echo "Downloading sys-clk: {}"
+    curl -sL $SYS_CLK_RELEASE \
+      | jq '.assets' | jq '.[0].browser_download_url' \
+      | xargs -I {} curl -sL {} -o sys-clk.zip
+    if [ $? -ne 0 ]; then
+        echo "Download failed."
+    else
+        echo "Unzipping files..."
+        unzip -uq sys-clk.zip -d ./sdmc/
+        rm sys-clk.zip
+        echo "Overlay Imported: sys-clk"
+    fi
+fi
+
+if [ $ENABLE_EMUIIBO = "true" ]; then
+    curl -sL $EMUIIBO_RELEASE \
+      | jq '.tag_name' \
+      | xargs -I {} echo "Downloading emuiibo: {}"
+    curl -sL $EMUIIBO_RELEASE \
+      | jq '.assets' | jq '.[0].browser_download_url' \
+      | xargs -I {} curl -sL {} -o emuiibo.zip
+    if [ $? -ne 0 ]; then
+        echo "Download failed."
+    else
+        echo "Unzipping files..."
+        unzip -uq emuiibo.zip -d ./sdmc/
+        rm emuiibo.zip
+        mv -f ./sdmc/SdOut/* ./sdmc/
+        rm -r ./sdmc/SdOut/
+        echo "Overlay Imported: emuiibo"
     fi
 fi
 

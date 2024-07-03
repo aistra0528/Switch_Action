@@ -35,6 +35,13 @@
 | BLANK_PRODINFO_EMU | Blank prodinfo for `emuMMC` in `sdmc:/exosphere.ini` |
 | BLANK_PRODINFO_SYS | Blank prodinfo for `sysMMC` in `sdmc:/exosphere.ini` |
 
+### [Tesla](https://github.com/WerWolv/libtesla)
+
+| Config option | Description |
+| - | - |
+| TESLA_LOADER_RELEASE | Custom release of nx-ovlloader |
+| TESLA_MENU_RELEASE | Custom release of Tesla-Menu |
+
 ### Payloads
 - Place payloads in `sdmc:/bootloader/payloads`
 - [x] [Lockpick_RCM](https://github.com/Decscots/Lockpick_RCM)
@@ -53,3 +60,13 @@
 | Config option | Description |
 | - | - |
 | {APPLICATION}_RELEASE | Custom release of application |
+
+### Tesla Overlays
+- Place overlays in `sdmc:/switch/.overlays`
+- [x] [Status Monitor Overlay](https://github.com/masagrator/Status-Monitor-Overlay)
+- [ ] [sys-clk](https://github.com/retronx-team/sys-clk)
+- [ ] [emuiibo](https://github.com/XorTroll/emuiibo)
+
+| Config option | Description |
+| - | - |
+| {OVERLAY}_RELEASE | Custom release of overlay |
