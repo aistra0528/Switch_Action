@@ -256,7 +256,7 @@ if [ $ENABLE_EMUIIBO = "true" ]; then
         echo "Unzipping files..."
         unzip -uq emuiibo.zip -d ./sdmc/
         rm emuiibo.zip
-        mv -f ./sdmc/SdOut/* ./sdmc/
+        cp -r ./sdmc/SdOut/* ./sdmc/
         rm -r ./sdmc/SdOut/
         echo "Overlay Imported: emuiibo"
     fi
