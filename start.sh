@@ -26,6 +26,7 @@ ENABLE_WILIWILI=$(cat config.env | grep -w "ENABLE_WILIWILI" | head -n 1 | cut -
 WILIWILI_RELEASE=$(cat config.env | grep -w "WILIWILI_RELEASE" | head -n 1 | cut -d "=" -f 2)
 ENABLE_STATUS_MONITOR=$(cat config.env | grep -w "ENABLE_STATUS_MONITOR" | head -n 1 | cut -d "=" -f 2)
 STATUS_MONITOR_RELEASE=$(cat config.env | grep -w "STATUS_MONITOR_RELEASE" | head -n 1 | cut -d "=" -f 2)
+SALTYNX_RELEASE=$(cat config.env | grep -w "SALTYNX_RELEASE" | head -n 1 | cut -d "=" -f 2)
 ENABLE_SYS_CLK=$(cat config.env | grep -w "ENABLE_SYS_CLK" | head -n 1 | cut -d "=" -f 2)
 SYS_CLK_RELEASE=$(cat config.env | grep -w "SYS_CLK_RELEASE" | head -n 1 | cut -d "=" -f 2)
 ENABLE_EMUIIBO=$(cat config.env | grep -w "ENABLE_EMUIIBO" | head -n 1 | cut -d "=" -f 2)
@@ -223,6 +224,20 @@ if [ $ENABLE_STATUS_MONITOR = "true" ]; then
         unzip -uq Status-Monitor-Overlay.zip -d ./sdmc/
         rm Status-Monitor-Overlay.zip
         echo "Overlay Imported: Status Monitor Overlay"
+    fi
+    curl -sL $SALTYNX_RELEASE \
+      | jq '.tag_name' \
+      | xargs -I {} echo "Downloading SaltyNX: {}"
+    curl -sL $SALTYNX_RELEASE \
+      | jq '.assets' | jq '.[0].browser_download_url' \
+      | xargs -I {} curl -sL {} -o SaltyNX.zip
+    if [ $? -ne 0 ]; then
+        echo "Download failed."
+    else
+        echo "Unzipping files..."
+        unzip -uq SaltyNX.zip -d ./sdmc/
+        rm SaltyNX.zip
+        echo "Imported: SaltyNX"
     fi
 fi
 
