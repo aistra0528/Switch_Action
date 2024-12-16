@@ -21,3 +21,4 @@ jobs:
       with:
         name: sdmc
         path: ./sdmc
+        include-hidden-files: true
