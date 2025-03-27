@@ -29,6 +29,8 @@ STATUS_MONITOR_RELEASE=$(cat config.env | grep -w "STATUS_MONITOR_RELEASE" | hea
 SALTYNX_RELEASE=$(cat config.env | grep -w "SALTYNX_RELEASE" | head -n 1 | cut -d "=" -f 2)
 ENABLE_SYS_CLK=$(cat config.env | grep -w "ENABLE_SYS_CLK" | head -n 1 | cut -d "=" -f 2)
 SYS_CLK_RELEASE=$(cat config.env | grep -w "SYS_CLK_RELEASE" | head -n 1 | cut -d "=" -f 2)
+ENABLE_QUICK_NTP=$(cat config.env | grep -w "ENABLE_QUICK_NTP" | head -n 1 | cut -d "=" -f 2)
+QUICK_NTP_RELEASE=$(cat config.env | grep -w "QUICK_NTP_RELEASE" | head -n 1 | cut -d "=" -f 2)
 ENABLE_EMUIIBO=$(cat config.env | grep -w "ENABLE_EMUIIBO" | head -n 1 | cut -d "=" -f 2)
 EMUIIBO_RELEASE=$(cat config.env | grep -w "EMUIIBO_RELEASE" | head -n 1 | cut -d "=" -f 2)
 
@@ -255,6 +257,23 @@ if [ $ENABLE_SYS_CLK = "true" ]; then
         unzip -uq sys-clk.zip -d ./sdmc/
         rm sys-clk.zip
         echo "Overlay Imported: sys-clk"
+    fi
+fi
+
+if [ $ENABLE_QUICK_NTP = "true" ]; then
+    curl -sL $QUICK_NTP_RELEASE \
+      | jq '.tag_name' \
+      | xargs -I {} echo "Downloading QuickNTP: {}"
+    curl -sL $QUICK_NTP_RELEASE \
+      | jq '.assets' | jq '.[0].browser_download_url' \
+      | xargs -I {} curl -sL {} -o quickntp.zip
+    if [ $? -ne 0 ]; then
+        echo "Download failed."
+    else
+        echo "Unzipping files..."
+        unzip -uq quickntp.zip -d ./sdmc/
+        rm quickntp.zip
+        echo "Overlay Imported: QuickNTP"
     fi
 fi
 

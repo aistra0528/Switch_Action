@@ -65,6 +65,7 @@
 - Place overlays in `sdmc:/switch/.overlays`
 - [x] [Status Monitor Overlay](https://github.com/masagrator/Status-Monitor-Overlay)
 - [ ] [sys-clk](https://github.com/retronx-team/sys-clk)
+- [ ] [QuickNTP](https://github.com/nedex/QuickNTP)
 - [ ] [emuiibo](https://github.com/XorTroll/emuiibo)
 
 | Config option | Description |
