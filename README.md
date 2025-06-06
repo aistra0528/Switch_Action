@@ -44,7 +44,7 @@
 
 ### Payloads
 - Place payloads in `sdmc:/bootloader/payloads`
-- [x] [Lockpick_RCM](https://github.com/Kofysh/Lockpick_RCM)
+- [x] [Lockpick_RCM](https://github.com/impeeza/Lockpick_RCMDecScots)
 - [x] [TegraExplorer](https://github.com/suchmememanyskill/TegraExplorer)
 
 | Config option | Description |

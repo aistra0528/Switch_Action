@@ -145,10 +145,13 @@ if [ $ENABLE_LOCKPICK_RCM = "true" ]; then
       | xargs -I {} echo "Downloading Lockpick_RCM: {}"
     curl -sL $LOCKPICK_RCM_RELEASE \
       | jq '.assets' | jq '.[0].browser_download_url' \
-      | xargs -I {} curl -sL {} -o ./sdmc/bootloader/payloads/Lockpick_RCM.bin
+      | xargs -I {} curl -sL {} -o Lockpick_RCM.zip
     if [ $? -ne 0 ]; then
         echo "Download failed."
     else
+        echo "Unzipping files..."
+        unzip -uq Lockpick_RCM.zip -d ./sdmc/bootloader/payloads/
+        rm Lockpick_RCM.zip
         echo "Payload imported: Lockpick_RCM"
     fi
 fi
