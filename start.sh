@@ -39,10 +39,11 @@ EMUIIBO_RELEASE=$(cat config.env | grep -w "EMUIIBO_RELEASE" | head -n 1 | cut -
 echo "Preparing..."
 rm -r ./sdmc/
 
-curl -sL $HEKATE_RELEASE \
+release=$(curl -sL $HEKATE_RELEASE)
+echo $release \
   | jq '.tag_name' \
   | xargs -I {} echo "Downloading hekate & Nyx: {}"
-curl -sL $HEKATE_RELEASE \
+echo $release \
   | jq '.assets' | jq '.[0].browser_download_url' \
   | xargs -I {} curl -sL {} -o hekate.zip
 if [ $? -ne 0 ]; then
@@ -56,10 +57,11 @@ else
 fi
 
 if [ $ENABLE_ATMOSPHERE = "true" ]; then
-    curl -sL $ATMOSPHERE_RELEASE \
+    release=$(curl -sL $ATMOSPHERE_RELEASE)
+    echo $release \
       | jq '.tag_name' \
       | xargs -I {} echo "Downloading Atmosphère: {}"
-    curl -sL $ATMOSPHERE_RELEASE \
+    echo $release \
       | jq '.assets' | jq '.[0].browser_download_url' \
       | xargs -I {} curl -sL {} -o atmosphere.zip
     if [ $? -ne 0 ]; then
@@ -111,10 +113,11 @@ if [ $ENABLE_ATMOSPHERE = "true" ]; then
 fi
 
 if [ $ENABLE_TESLA = "true" ]; then
-    curl -sL $TESLA_LOADER_RELEASE \
+    release=$(curl -sL $TESLA_LOADER_RELEASE)
+    echo $release \
       | jq '.tag_name' \
       | xargs -I {} echo "Downloading nx-ovlloader: {}"
-    curl -sL $TESLA_LOADER_RELEASE \
+    echo $release \
       | jq '.assets' | jq '.[0].browser_download_url' \
       | xargs -I {} curl -sL {} -o nx-ovlloader.zip
     if [ $? -ne 0 ]; then
@@ -125,10 +128,11 @@ if [ $ENABLE_TESLA = "true" ]; then
         rm nx-ovlloader.zip
         echo "Imported: nx-ovlloader"
     fi
-    curl -sL $TESLA_MENU_RELEASE \
+    release=$(curl -sL $TESLA_MENU_RELEASE)
+    echo $release \
       | jq '.tag_name' \
       | xargs -I {} echo "Downloading Tesla-Menu: {}"
-    curl -sL $TESLA_MENU_RELEASE \
+    echo $release \
       | jq '.assets' | jq '.[0].browser_download_url' \
       | xargs -I {} curl -sL {} -o ovlmenu.zip
     if [ $? -ne 0 ]; then
@@ -142,10 +146,11 @@ if [ $ENABLE_TESLA = "true" ]; then
 fi
 
 if [ $ENABLE_LOCKPICK_RCM = "true" ]; then
-    curl -sL $LOCKPICK_RCM_RELEASE \
+    release=$(curl -sL $LOCKPICK_RCM_RELEASE)
+    echo $release \
       | jq '.tag_name' \
       | xargs -I {} echo "Downloading Lockpick_RCM: {}"
-    curl -sL $LOCKPICK_RCM_RELEASE \
+    echo $release \
       | jq '.assets' | jq '.[0].browser_download_url' \
       | xargs -I {} curl -sL {} -o Lockpick_RCM.zip
     if [ $? -ne 0 ]; then
@@ -159,10 +164,11 @@ if [ $ENABLE_LOCKPICK_RCM = "true" ]; then
 fi
 
 if [ $ENABLE_TEGRA_EXPLORER = "true" ]; then
-    curl -sL $TEGRA_EXPLORER_RELEASE \
+    release=$(curl -sL $TEGRA_EXPLORER_RELEASE)
+    echo $release \
       | jq '.tag_name' \
       | xargs -I {} echo "Downloading TegraExplorer: {}"
-    curl -sL $TEGRA_EXPLORER_RELEASE \
+    echo $release \
       | jq '.assets' | jq '.[0].browser_download_url' \
       | xargs -I {} curl -sL {} -o ./sdmc/bootloader/payloads/TegraExplorer.bin
     if [ $? -ne 0 ]; then
@@ -173,10 +179,11 @@ if [ $ENABLE_TEGRA_EXPLORER = "true" ]; then
 fi
 
 if [ $ENABLE_SPHAIRA = "true" ]; then
-    curl -sL $SPHAIRA_RELEASE \
+    release=$(curl -sL $SPHAIRA_RELEASE)
+    echo $release \
       | jq '.tag_name' \
       | xargs -I {} echo "Downloading Sphaira: {}"
-    curl -sL $SPHAIRA_RELEASE \
+    echo $release \
       | jq '.assets' | jq '.[0].browser_download_url' \
       | xargs -I {} curl -sL {} -o sphaira.zip
     if [ $? -ne 0 ]; then
@@ -190,10 +197,11 @@ if [ $ENABLE_SPHAIRA = "true" ]; then
 fi
 
 if [ $ENABLE_GOLDLEAF = "true" ]; then
-    curl -sL $GOLDLEAF_RELEASE \
+    release=$(curl -sL $GOLDLEAF_RELEASE)
+    echo $release \
       | jq '.tag_name' \
       | xargs -I {} echo "Downloading Goldleaf: {}"
-    curl -sL $GOLDLEAF_RELEASE \
+    echo $release \
       | jq '.assets' | jq '.[0].browser_download_url' \
       | xargs -I {} curl -sL {} -o ./sdmc/switch/Goldleaf.nro
     if [ $? -ne 0 ]; then
@@ -204,10 +212,11 @@ if [ $ENABLE_GOLDLEAF = "true" ]; then
 fi
 
 if [ $ENABLE_JKSV = "true" ]; then
-    curl -sL $JKSV_RELEASE \
+    release=$(curl -sL $JKSV_RELEASE)
+    echo $release \
       | jq '.tag_name' \
       | xargs -I {} echo "Downloading JKSV: {}"
-    curl -sL $JKSV_RELEASE \
+    echo $release \
       | jq '.assets' | jq '.[0].browser_download_url' \
       | xargs -I {} curl -sL {} -o ./sdmc/switch/JKSV.nro
     if [ $? -ne 0 ]; then
@@ -218,10 +227,11 @@ if [ $ENABLE_JKSV = "true" ]; then
 fi
 
 if [ $ENABLE_WILIWILI = "true" ]; then
-    curl -sL $WILIWILI_RELEASE \
+    release=$(curl -sL $WILIWILI_RELEASE)
+    echo $release \
       | jq '.tag_name' \
       | xargs -I {} echo "Downloading wiliwili: {}"
-    curl -sL $WILIWILI_RELEASE \
+    echo $release \
       | jq '.assets' | jq '.[9].browser_download_url' \
       | xargs -I {} curl -sL {} -o wiliwili.zip
     if [ $? -ne 0 ]; then
@@ -235,10 +245,11 @@ if [ $ENABLE_WILIWILI = "true" ]; then
 fi
 
 if [ $ENABLE_STATUS_MONITOR = "true" ]; then
-    curl -sL $STATUS_MONITOR_RELEASE \
+    release=$(curl -sL $STATUS_MONITOR_RELEASE)
+    echo $release \
       | jq '.tag_name' \
       | xargs -I {} echo "Downloading Status Monitor Overlay: {}"
-    curl -sL $STATUS_MONITOR_RELEASE \
+    echo $release \
       | jq '.assets' | jq '.[0].browser_download_url' \
       | xargs -I {} curl -sL {} -o Status-Monitor-Overlay.zip
     if [ $? -ne 0 ]; then
@@ -249,10 +260,11 @@ if [ $ENABLE_STATUS_MONITOR = "true" ]; then
         rm Status-Monitor-Overlay.zip
         echo "Overlay Imported: Status Monitor Overlay"
     fi
-    curl -sL $SALTYNX_RELEASE \
+    release=$(curl -sL $SALTYNX_RELEASE)
+    echo $release \
       | jq '.tag_name' \
       | xargs -I {} echo "Downloading SaltyNX: {}"
-    curl -sL $SALTYNX_RELEASE \
+    echo $release \
       | jq '.assets' | jq '.[0].browser_download_url' \
       | xargs -I {} curl -sL {} -o SaltyNX.zip
     if [ $? -ne 0 ]; then
@@ -266,10 +278,11 @@ if [ $ENABLE_STATUS_MONITOR = "true" ]; then
 fi
 
 if [ $ENABLE_SYS_CLK = "true" ]; then
-    curl -sL $SYS_CLK_RELEASE \
+    release=$(curl -sL $SYS_CLK_RELEASE)
+    echo $release \
       | jq '.tag_name' \
       | xargs -I {} echo "Downloading sys-clk: {}"
-    curl -sL $SYS_CLK_RELEASE \
+    echo $release \
       | jq '.assets' | jq '.[0].browser_download_url' \
       | xargs -I {} curl -sL {} -o sys-clk.zip
     if [ $? -ne 0 ]; then
@@ -283,10 +296,11 @@ if [ $ENABLE_SYS_CLK = "true" ]; then
 fi
 
 if [ $ENABLE_QUICK_NTP = "true" ]; then
-    curl -sL $QUICK_NTP_RELEASE \
+    release=$(curl -sL $QUICK_NTP_RELEASE)
+    echo $release \
       | jq '.tag_name' \
       | xargs -I {} echo "Downloading QuickNTP: {}"
-    curl -sL $QUICK_NTP_RELEASE \
+    echo $release \
       | jq '.assets' | jq '.[0].browser_download_url' \
       | xargs -I {} curl -sL {} -o quickntp.zip
     if [ $? -ne 0 ]; then
@@ -300,10 +314,11 @@ if [ $ENABLE_QUICK_NTP = "true" ]; then
 fi
 
 if [ $ENABLE_EMUIIBO = "true" ]; then
-    curl -sL $EMUIIBO_RELEASE \
+    release=$(curl -sL $EMUIIBO_RELEASE)
+    echo $release \
       | jq '.tag_name' \
       | xargs -I {} echo "Downloading emuiibo: {}"
-    curl -sL $EMUIIBO_RELEASE \
+    echo $release \
       | jq '.assets' | jq '.[0].browser_download_url' \
       | xargs -I {} curl -sL {} -o emuiibo.zip
     if [ $? -ne 0 ]; then
