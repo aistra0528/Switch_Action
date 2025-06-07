@@ -53,7 +53,8 @@
 
 ### Homebrew Applications
 - Place applications in `sdmc:/switch`
-- [x] [Goldleaf](https://github.com/XorTroll/Goldleaf)
+- [x] [Sphaira](https://github.com/ITotalJustice/sphaira)
+- [ ] [Goldleaf](https://github.com/XorTroll/Goldleaf)
 - [ ] [JKSV](https://github.com/J-D-K/JKSV)
 - [ ] [wiliwili](https://github.com/xfangfang/wiliwili)
 

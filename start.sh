@@ -18,6 +18,8 @@ ENABLE_LOCKPICK_RCM=$(cat config.env | grep -w "ENABLE_LOCKPICK_RCM" | head -n 1
 LOCKPICK_RCM_RELEASE=$(cat config.env | grep -w "LOCKPICK_RCM_RELEASE" | head -n 1 | cut -d "=" -f 2)
 ENABLE_TEGRA_EXPLORER=$(cat config.env | grep -w "ENABLE_TEGRA_EXPLORER" | head -n 1 | cut -d "=" -f 2)
 TEGRA_EXPLORER_RELEASE=$(cat config.env | grep -w "TEGRA_EXPLORER_RELEASE" | head -n 1 | cut -d "=" -f 2)
+ENABLE_SPHAIRA=$(cat config.env | grep -w "ENABLE_SPHAIRA" | head -n 1 | cut -d "=" -f 2)
+SPHAIRA_RELEASE=$(cat config.env | grep -w "SPHAIRA_RELEASE" | head -n 1 | cut -d "=" -f 2)
 ENABLE_GOLDLEAF=$(cat config.env | grep -w "ENABLE_GOLDLEAF" | head -n 1 | cut -d "=" -f 2)
 GOLDLEAF_RELEASE=$(cat config.env | grep -w "GOLDLEAF_RELEASE" | head -n 1 | cut -d "=" -f 2)
 ENABLE_JKSV=$(cat config.env | grep -w "ENABLE_JKSV" | head -n 1 | cut -d "=" -f 2)
@@ -167,6 +169,23 @@ if [ $ENABLE_TEGRA_EXPLORER = "true" ]; then
         echo "Download failed."
     else
         echo "Payload imported: TegraExplorer"
+    fi
+fi
+
+if [ $ENABLE_SPHAIRA = "true" ]; then
+    curl -sL $SPHAIRA_RELEASE \
+      | jq '.tag_name' \
+      | xargs -I {} echo "Downloading Sphaira: {}"
+    curl -sL $SPHAIRA_RELEASE \
+      | jq '.assets' | jq '.[0].browser_download_url' \
+      | xargs -I {} curl -sL {} -o sphaira.zip
+    if [ $? -ne 0 ]; then
+        echo "Download failed."
+    else
+        echo "Unzipping files..."
+        unzip -uq sphaira.zip -d ./sdmc/
+        rm sphaira.zip
+        echo "Application imported: Sphaira"
     fi
 fi
 
