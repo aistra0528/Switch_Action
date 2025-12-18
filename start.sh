@@ -251,7 +251,7 @@ if [ $ENABLE_STATUS_MONITOR = "true" ]; then
       | jq '.tag_name' \
       | xargs -I {} echo "Downloading Status Monitor Overlay: {}"
     echo $release \
-      | jq '.assets' | jq '.[0].browser_download_url' \
+      | jq '.assets' | jq '.[1].browser_download_url' \
       | xargs -I {} curl -sL {} -o Status-Monitor-Overlay.zip
     if [ $? -ne 0 ]; then
         echo "Download failed."
