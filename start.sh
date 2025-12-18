@@ -1,4 +1,5 @@
 #!/bin/bash
+set -eou pipefail
 
 HEKATE_RELEASE=$(cat config.env | grep -w "HEKATE_RELEASE" | head -n 1 | cut -d "=" -f 2)
 ENABLE_ATMOSPHERE=$(cat config.env | grep -w "ENABLE_ATMOSPHERE" | head -n 1 | cut -d "=" -f 2)
@@ -44,7 +45,7 @@ echo $release \
   | jq '.tag_name' \
   | xargs -I {} echo "Downloading hekate & Nyx: {}"
 echo $release \
-  | jq '.assets' | jq '.[0].browser_download_url' \
+  | jq '.assets' | jq '.[1].browser_download_url' \
   | xargs -I {} curl -sL {} -o hekate.zip
 if [ $? -ne 0 ]; then
     echo "Download failed."
